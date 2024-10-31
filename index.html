@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Troubleshooter Adventure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px #ddd;
+            border-radius: 10px;
+        }
+        .level {
+            display: none;
+            padding: 20px;
+        }
+        .active {
+            display: block;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .points {
+            font-size: 1.2em;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VPN Troubleshooter Adventure</h1>
+        <p>Welcome to the VPN troubleshooting game! Resolve each level to earn points.</p>
+        <div id="start-screen">
+            <button class="btn" onclick="startGame()">Begin Investigation</button>
+        </div>
+
+        <div id="level1" class="level">
+            <h2>Level 1: Identify the Issue</h2>
+            <p>Check the logs for abnormal activity. Which log should you check?</p>
+            <button class="btn" onclick="completeLevel(1, 'correct')">VPN Logs</button>
+            <button class="btn" onclick="completeLevel(1, 'incorrect')">System Logs</button>
+        </div>
+
+        <div id="level2" class="level">
+            <h2>Level 2: Connectivity Check</h2>
+            <p>Run a test to check connectivity with the VPN gateway. Which tool would you use?</p>
+            <button class="btn" onclick="completeLevel(2, 'correct')">Ping</button>
+            <button class="btn" onclick="completeLevel(2, 'incorrect')">Traceroute</button>
+        </div>
+
+        <div id="level3" class="level">
+            <h2>Level 3: Authentication Check</h2>
+            <p>Confirm that credentials and certificates are valid. How would you verify them?</p>
+            <button class="btn" onclick="completeLevel(3, 'correct')">Check Certificate Expiry</button>
+            <button class="btn" onclick="completeLevel(3, 'incorrect')">Ignore Authentication</button>
+        </div>
+
+        <div id="level4" class="level">
+            <h2>Level 4: Configuration Verification</h2>
+            <p>Review firewall settings to ensure IPSec traffic is allowed. What action would you take?</p>
+            <button class="btn" onclick="completeLevel(4, 'correct')">Allow IPSec</button>
+            <button class="btn" onclick="completeLevel(4, 'incorrect')">Block All Traffic</button>
+        </div>
+
+        <div id="level5" class="level">
+            <h2>Level 5: ISP Connectivity Check</h2>
+            <p>Check ISP connectivity to rule out issues. What would you do?</p>
+            <button class="btn" onclick="completeLevel(5, 'correct')">Contact ISP</button>
+            <button class="btn" onclick="completeLevel(5, 'incorrect')">Ignore</button>
+        </div>
+
+        <div id="end-screen" class="level">
+            <h2>Congratulations!</h2>
+            <p>You have completed the troubleshooting process.</p>
+            <p>Your total points: <span id="points" class="points">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        let currentLevel = 0;
+        let points = 0;
+
+        function startGame() {
+            document.getElementById("start-screen").style.display = "none";
+            showLevel(1);
+        }
+
+        function showLevel(level) {
+            hideAllLevels();
+            document.getElementById(`level${level}`).classList.add("active");
+            currentLevel = level;
+        }
+
+        function hideAllLevels() {
+            const levels = document.querySelectorAll(".level");
+            levels.forEach(level => level.classList.remove("active"));
+        }
+
+        function completeLevel(level, answer) {
+            if (answer === 'correct') {
+                points += 10;
+                alert("Correct! You gained 10 points.");
+            } else {
+                alert("Incorrect! Try again.");
+                return;
+            }
+            if (level < 5) {
+                showLevel(level + 1);
+            } else {
+                showEndScreen();
+            }
+        }
+
+        function showEndScreen() {
+            hideAllLevels();
+            document.getElementById("end-screen").classList.add("active");
+            document.getElementById("points").textContent = points;
+        }
+    </script>
+</body>
+</html>
